@@ -7,7 +7,7 @@
     hundreds db 0
     number db 0
     msg0 db 10, 13, 7, 'Enter the desired length of the spiral: ', '$'
-    msg1 db 10, 13, 7, 'Value is greater', '$'
+    msg1 db 10, 13, 7, 'The number entered is invalid, please try again.', '$'
     msg2 db 10, 13, 7, 'Value is less', '$'
 .code
     ulam:
@@ -15,7 +15,7 @@
         mov ax, @data
         mov ds, ax
 
-        ; obtaining the ulam spiral extension
+        ; obtaining the ulam spiral extension 
         mov ah, 09h
         lea dx, msg0
         int 21h
@@ -53,23 +53,31 @@
         ; number  validation
         mov al, number
         cmp al, 100
+        jz lower
+        cmp al, 100
         jc  lower
         cmp al, 100
         jnz higher
     ;
 
+    ; the number is greater
     higher:
         mov ah, 09h
         lea dx, msg1
         int 21h
+        ;end program method
         jmp endprogram
 
+    ; the number is less
     lower:
         mov ah, 09h
         lea dx, msg2
         int 21h
+
+        ;end program method
         jmp endprogram
 
+    ; end program method
     endprogram:
         ; end of program
         mov ah, 4ch
